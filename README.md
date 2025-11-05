@@ -13,6 +13,7 @@ https://github.com/user-attachments/assets/eeb75510-9725-4f3a-a259-0959ddc22603
     - **Walk**: ⌨️ ~Cursor-following does not work in Wayland 🥺🥺🥺~. So hover your mouse over the gremlins, then use W/A/S/D to make 'em skedaddle 💨💨.
     - **Secret Move:** 💃 Right-click to see what happens. (It's Mambo time 😎😎)
     - **Headpats:** 🖐️ You can pat their head by clicking the top hotspot. (Still looking for a Mambo patting animation, send help.)
+- Also, the gremlins will make some ✨noises✨ when you interact with them 🥰🥰 Show 'em some love!
 
 > Note: It seems that the "Cursor-following does not work in Wayland" statement of mine was, in fact, a skill issue 😩😩. I'll implement it as soon as I can.
 
