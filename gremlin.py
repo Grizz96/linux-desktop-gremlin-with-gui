@@ -402,6 +402,7 @@ class GremlinWindow(QWidget):
                 self.set_state(State.HOVER)
             else:
                 self.set_state(State.IDLE)
+            self.reset_idle_timer()
 
     # --- @! Event Handlers (Mouse) ------------------------------------------------------
 
