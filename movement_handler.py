@@ -43,7 +43,7 @@ class MovementHandler:
         vertical = ""
         horizontal = ""
         if self.w ^ self.s:
-            vertical = "Down" if self.w else "Up"   # inverted from velocity
+            vertical = "Up" if self.w else "Down"
         if self.a ^ self.d:
             horizontal = "Left" if self.a else "Right"
         return vertical + horizontal
