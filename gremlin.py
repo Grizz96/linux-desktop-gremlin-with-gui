@@ -114,8 +114,22 @@ class GremlinWindow(QWidget):
         """
 
         # only triggers on state change, does nothing otherwise
+        # except for shooting animations, which can be spammed
         if self.current_state == new_state:
-            return
+            if (self.has_reload and
+                new_state in [State.LEFT_ACTION, State.RIGHT_ACTION] and
+                    self.ammo > 0):
+                c = max(settings.CurrentFrames.LeftAction,
+                        settings.CurrentFrames.RightAction)
+                f = min(settings.FrameCounts.LeftAction,
+                        settings.FrameCounts.RightAction)
+                # if still in the first quarter of the animation, block shooting again
+                if c < f // 4:
+                    return
+                # otherwise, let her shoot
+                pass
+            else:
+                return
 
         # --- @! handle timers on state exit ---------------------------------------------
         # except the intro and outro, all states with timers should stop them on exit
@@ -139,12 +153,12 @@ class GremlinWindow(QWidget):
             case State.PAT:
                 self.play_sound("pat.wav")
             case State.LEFT_ACTION:
-                self.play_sound("fire.wav")
-                if self.has_reload:
+                if self.has_reload and self.ammo > 0:
+                    self.play_sound("fire.wav")
                     self.ammo -= 1
             case State.RIGHT_ACTION:
-                self.play_sound("fire.wav")
-                if self.has_reload:
+                if self.has_reload and self.ammo > 0:
+                    self.play_sound("fire.wav")
                     self.ammo -= 1
             case State.RELOAD:
                 self.play_sound("reload.wav")
@@ -269,14 +283,16 @@ class GremlinWindow(QWidget):
                     sprite_manager.get(m.Emote), c.Emote, f.Emote)
 
             case State.LEFT_ACTION:
-                c.LeftAction = self.play_animation(
-                    sprite_manager.get(m.LeftAction), c.LeftAction, f.LeftAction)
+                if not self.has_reload or self.ammo >= 0:
+                    c.LeftAction = self.play_animation(
+                        sprite_manager.get(m.LeftAction), c.LeftAction, f.LeftAction)
                 if c.LeftAction == 0:
                     self.handle_reload_check()
 
             case State.RIGHT_ACTION:
-                c.RightAction = self.play_animation(
-                    sprite_manager.get(m.RightAction), c.RightAction, f.RightAction)
+                if not self.has_reload or self.ammo >= 0:
+                    c.RightAction = self.play_animation(
+                        sprite_manager.get(m.RightAction), c.RightAction, f.RightAction)
                 if c.RightAction == 0:
                     self.handle_reload_check()
 
@@ -548,7 +564,7 @@ class GremlinWindow(QWidget):
         block_states = [
             State.DRAGGING, State.CLICK, State.SLEEPING, State.EMOTE, State.RELOAD
         ]
-        if event.button() == Qt.MouseButton.LeftButton:
+        if event.button() == Qt.MouseButton.RightButton:
             if self.current_state not in block_states:
                 self.reset_idle_timer()
                 self.reset_emote_timer()
