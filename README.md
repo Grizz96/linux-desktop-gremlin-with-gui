@@ -174,6 +174,8 @@ If you set `AnnoyEmote` to `false`, then nothing happens. If you set it to `true
 - The emote will last for the number of milliseconds set in `EmoteDuration`.
   - *(Note: For now, this duration only affects the animation, not the sound effect, sorry 😢.)*
 
+You can also trigger this animation by hovering over the gremlin and press "P". You can customize this key too, just take a look at `./config.json`.
+
 ## How to Enable or Disable the System Tray
 
 This program's systray is disabled by default, and you won't lose any functionality by disabling the systray either. However, if you need it, you might enable it by modifying the `Systray` field in `./config.json` to `true`.
