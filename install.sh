@@ -40,7 +40,7 @@ ICON_PATH="$INSTALL_PATH/icon.png" # optional icon
 
 echo "→ Installing Linux Desktop Gremlin..."
 mkdir -p "$INSTALL_PATH" "$BIN_PATH" "$(dirname "$DESKTOP_FILE")"
-ln -sf "$INSTALL_PATH/gremlin-picker.sh" "$LINK_PATH"
+ln -sf "$INSTALL_PATH/scripts/gremlin-picker.sh" "$LINK_PATH"
 chmod +x "$LINK_PATH"
 
 cat >"$DESKTOP_FILE" <<EOF
