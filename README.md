@@ -1,217 +1,73 @@
+# Linux Desktop Gremlins
 
-# Linux Desktop Gremlins!
+Desktop companions for your Linux desktop, rewritten in PySide6.
 
-Basically [KurtVelasco's Desktop Gremlin](https://github.com/KurtVelasco/Desktop_Gremlin), but re-written in PySide + Qt6.
+![Gremlin Preview](https://github.com/user-attachments/assets/eeb75510-9725-4f3a-a259-0959ddc22603)
 
-https://github.com/user-attachments/assets/eeb75510-9725-4f3a-a259-0959ddc22603
+---
 
-💥 Features 💥
+## ⚙️ Installation
 
-- Works on both X11 (with picom) and Hyprland (with XWayland).
-- Interactive controls:
-    - **Drag & Drop:** 🖱️ Click and drag your gremlins to move 'em.
-    - **Walk**: ⌨️ ~Cursor-following does not work in Wayland 🥺🥺🥺~. So hover your mouse over the gremlins, then use W/A/S/D to make 'em skedaddle 💨💨.
-    - **Secret Move:** Right-click to see what happens 😎. Pro tip: *where* you right-click matters! A headpat, a poke, (or something even more special) might play!
-- Also, if you leave the gremlins lonely for so long, they will occasionally make more ✨noises✨ to annoy you 😈😈. Think of it as *"1 hour of silence occasionally broken up by Mambo"*.
+1.  **Dependencies**:
+    *   Pastikan Anda memiliki `git` dan `curl`.
+    *   Proyek ini menggunakan `uv` untuk manajemen package Python.
+    *   Anda memerlukan **PySide6** dan **Qt6**. Untuk pengguna Arch Linux, Anda bisa install dengan: `yay -S pyside6 qt6-base`.
+    *   Untuk background transparan, compositor Anda harus dikonfigurasi. Pengguna X11 perlu `picom`, dan pengguna Hyprland perlu menambahkan beberapa rules window (lihat `hyprland.conf` di repo asli untuk contoh).
 
-> Note 1: The *"1 hour of silence occasionally broken up by Mambo"* feature can be turned off (if you are a chicken 🐔🐔). See the "Customize your Gremlins!" section below.
->
-> Note 2: It seems that the "Cursor-following does not work in Wayland" statement of mine was, in fact, a skill issue 😩😩. I'll implement it as soon as I can.
+2.  **Clone Repository**:
+    ```sh
+    git clone https://github.com/iluvgirlswithglasses/linux-desktop-gremlin
+    cd linux-desktop-gremlin
+    ```
 
-# Changelog
+3.  **Install Python Packages**:
+    Gunakan `uv` untuk sinkronisasi dependencies.
+    ```sh
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    uv sync
+    ```
 
-- 2025-11-18: Massive source code restructure! We now have a unified run script and a package recipe for Guix. (Huge thanks to [@thanosapollo](https://github.com/thanosapollo)! This chad is a much better programmer than I am.)
-- 2025-11-16: Added a manual trigger for the annoy emote. Press `P` to make them noisy on command.
-- 2025-11-15: Remapped headpats from Left Click to Right Click. No more accidental pats when you want to drag them around!
+---
 
-# Some differences between this and KurtVelasco's Desktop Gremlins
+## 🚀 Running the Gremlins
 
-This is not a strict 1:1 port, because I made some changes to the animation flow to better match my own preferences. I also created a few additional spritesheets; please feel free to use them if they're helpful.
+Cara termudah untuk menjalankan dan memilih gremlin adalah menggunakan GUI.
 
-Furthermore, for anyone who wants to add or change the animation logic: Check out the `animation_tick` method in `gremlin.py`. Unlike KurtVelasco's original code, this version uses a more traditional Finite State Machine design, so it should make the logic easier to follow and extend. There's still plenty of room for improvement, though. I'll come back to polishing the code after I finish adding the animations I have in mind.
+1.  **Jalankan GUI Picker**:
+    ```sh
+    ./run-gui.sh
+    ```
+    GUI ini memungkinkan Anda melihat pratinjau karakter dan menjalankannya dengan satu klik.
 
-# ⚙ How to Install and Run (Automatically)
+2.  **Alternatif (Command Line)**:
+    Anda juga bisa menjalankan gremlin langsung dari terminal dengan menyebutkan namanya:
+    ```sh
+    ./run.sh <character-name>
+    ```
+    Contoh: `./run.sh agnes`
 
-## 1. Configure your Compositor
+---
 
-To make the gremlin's background transparent, your compositor must be configured correctly. Unfortunately, this is not something that can really be automated. So, before you install, please follow these guides for X11 desktops and Hyprland:
+## ✨ How to Add a New Character
 
-<details>
-  <summary>For X11 (e.g., i3, bspwm, etc.)</summary>
+Untuk menambahkan karakter Anda sendiri:
 
-  Install `picom` and have it executed on startup is enough. For example, you may install it via:
+1.  **Buat Direktori**:
+    *   Buat folder baru dengan nama karakter di dalam `spritesheet/`. Contoh: `spritesheet/my-char/`.
+    *   Buat folder baru dengan nama yang sama di dalam `sounds/`. Contoh: `sounds/my-char/`.
 
-  ```sh
-  sudo apt install picom  # for Debian/Ubuntu based distros
-  yay -S picom            # for AUR users
-  ```
+2.  **Siapkan Aset Sprite**:
+    *   Letakkan semua file `*.png` (spritesheets) untuk animasi karakter Anda di dalam direktori `spritesheet/my-char/`.
 
-  Then, add the following line into your `~/.xinitrc` or equivalent startup script:
+3.  **Konfigurasi `sprite-map.json`**:
+    *   Buat file `sprite-map.json` di dalam `spritesheet/my-char/`.
+    *   File ini mendefinisikan ukuran frame (`FrameWidth`, `FrameHeight`) dan memetakan nama aksi (seperti `Idle`, `Walk`, `Pat`) ke nama file `.png` yang sesuai.
+    *   Anda bisa menyalin dan memodifikasi file ini dari karakter yang sudah ada (misal, `spritesheet/agnes/sprite-map.json`).
 
-  ```sh
-  picom &
-  ```
-</details>
+4.  **Konfigurasi `emote-config.json`**:
+    *   (Opsional) Jika Anda ingin karakter memiliki "annoy emote" (emote acak saat idle), buat file `emote-config.json` di direktori sprite-nya. Atur `AnnoyEmote` ke `true` dan sesuaikan durasinya.
 
-<details>
-  <summary>For Hyprland</summary>
+5.  **Tambahkan Suara**:
+    *   Letakkan semua file suara (`*.wav`) di dalam direktori `sounds/my-char/` yang telah Anda buat. Nama file harus cocok dengan yang akan direferensikan oleh logika program (misal, `pat.wav`, `grab.wav`, dll).
 
-  Firstly, you need `xwayland`. Since you're using Hyprland, I suspect you have it already. But if you don't, please install it with this command (or any of its equivalent):
-
-  ```sh
-  yay -S xorg-xwayland
-  ```
-
-  Then, add the following rules into your `~/.config/hypr/hyprland.conf`:
-
-  ```conf
-  windowrulev2 = noblur, title:ilgwg_desktop_gremlins.py
-  windowrulev2 = noshadow, title:ilgwg_desktop_gremlins.py
-  windowrulev2 = noborder, title:ilgwg_desktop_gremlins.py
-  ```
-</details>
-
-## 2. Run the installation script
-
-Just run the following script, and it will take care of the rest:
-
-```sh
-curl -s https://raw.githubusercontent.com/iluvgirlswithglasses/linux-desktop-gremlin/refs/heads/main/install.sh | bash
-```
-
-It is recommended that you check the content of the script before running.
-
-## 3. Run Desktop Gremins!
-
-If you have [rofi](https://github.com/davatorium/rofi) installed, you can use it to find and run Desktop Gremlin.
-
-<img width="960" height="720" alt="tmp_3" src="https://github.com/user-attachments/assets/45b2cffa-2914-4e25-b8d2-de07432c008e" />
-
-Otherwise, you can navigate to `~/.config/linux-desktop-gremlin/` and execute the run script, then a gremlin shall be spawned:
-
-```sh
-./run.sh                    # to spawn the default character (specified in ./config.json)
-./run.sh <character-name>   # to spawn any character who is available in ./spritesheet/
-
-# You can now close the terminal which you executed these scripts with.
-# The gremlin won't be despawned unless you use your hotkeys for closing window,
-# like alt+f4 or mod+q.
-```
-
-# ⚙ How to Install and Run (Manually)
-
-## 1. Install Dependencies
-
-You can install dependencies either in a Python virtual environment or using your system's package manager.
-
-<details>
-  <summary>Method A: Virtual Environment (Recommended)</summary>
-
-  There's nothing that can go wrong about this, except for the disk space.
-
-  ```sh
-  # clone repository
-  git clone https://github.com/iluvgirlswithglasses/linux-desktop-gremlin
-  cd linux-desktop-gremlin
-
-  # install uv -- a fast Python package manager -- then sync packages
-  curl -LsSf https://astral.sh/uv/install.sh | sh
-  uv sync
-  ```
-</details>
-
-<details>
-  <summary>Method B: System Package Manager</summary>
-
-  This method uses your distribution's packages to save disk space. You will need PySide6 and its Qt6 dependencies.
-
-  ```sh
-  # Example for Arch Linux
-  yay -S pyside6 qt6-base
-  ```
-</details>
-
-## 2. Run Linux Desktop Gremlins
-
-Execute one of these run scripts, then a gremlin shall be spawned:
-
-```sh
-./run.sh                    # to spawn the default character (specified in ./config.json)
-./run.sh <character-name>   # to spawn any character who is available in ./spritesheet/
-./scripts/gremlin-picker.sh # if you want to use a GUI picker (you need rofi installed)
-
-# You can now close the terminal which you executed these scripts with.
-# The gremlin won't be despawned unless you use your hotkeys for closing window,
-# like alt+f4 or mod+q.
-```
-
-You would also need to configure your compositor correctly so that the gremlins have fully transparent background. Refer to section "How to Install and Run (Automatically)" > "1. Configure your Compositor".
-
-# 🔧 Customizations!
-
-https://github.com/user-attachments/assets/26e2a3b0-4fde-4a3a-926f-ad9f1e1cfb07
-
-## How to Choose Your Gremlin
-
-There are a few ways to select which gremlin appears on your desktop.
-
-### Method A: Graphical Picker (Recommended)
-
-If you prefer a graphical interface, you can use the built-in picker. It allows you to see a preview of the character before running it.
-
-```sh
-./run-gui.sh
-```
-
-### Method B: Rofi Picker
-
-If you have [rofi](https://github.com/davatorium/rofi) installed, you can use a script to pick from a list of available gremlins:
-
-```sh
-./scripts/gremlin-picker.sh
-```
-
-### Method C: Command-Line Argument
-
-You can check for available gremlins in the `./spritesheet` directory. For example, you might see `agnes`, `goldship`, `oguri`, `mambo`, and `rice-shower`.
-
-Then, you can pass a gremlin's name as an argument to the run script, and she shall be spawned.
-
-```sh
-./run.sh rice-shower
-```
-
-You can also specify your default gremlin in `./config.json`.
-
-## How to Make Your Gremlin Annoy You (Occasionally!)
-
-Do you want the gremlins to annoy you at random time or not? 😜
-
-To control this, open `./spritesheet/<character>/emote-config.json`. You'll see:
-
-```json
-{
-    "AnnoyEmote": true,
-    "MinEmoteTriggerMinutes": 5,
-    "MaxEmoteTriggerMinutes": 15,
-    "EmoteDuration": 3600
-}
-```
-
-If you set `AnnoyEmote` to `false`, then nothing happens. If you set it to `true`, however:
-- If the gremlin goes without any *"caring interactions"* (no pats, no drags, no clicks,...) they will get bored 😢.
-- If you leave them bored for a while (a random time between `MinEmoteTriggerMinutes` and `MaxEmoteTriggerMinutes`), they will suddenly play a special emote (with sound!) all by themselves 😙😙.
-- The emote will last for the number of milliseconds set in `EmoteDuration`.
-  - *(Note: For now, this duration only affects the animation, not the sound effect, sorry 😢.)*
-
-You can also trigger this animation by hovering over the gremlin and press "P". You can customize this key too, just take a look at `./config.json`.
-
-## How to Enable or Disable the System Tray
-
-This program's systray is disabled by default, and you won't lose any functionality by disabling the systray either. However, if you need it, you might enable it by modifying the `Systray` field in `./config.json` to `true`.
-
-# 🚀 Stay Tuned!
-
-I'll be adding more characters as soon as my full-time job and university decide to give me a break.
-
-Also, got a cool spritesheet you're dying to see running on your desktop? Feel free to open an issue on GitHub and share! Thank you!
+Setelah semua file berada di tempatnya, karakter baru Anda akan secara otomatis muncul di GUI picker.
