@@ -1,19 +1,14 @@
-#!/usr/bin/env python3
-"""
-Launcher for Linux Desktop Gremlins.
-Handles environment detection and Qt platform configuration.
-"""
 
 import sys
+from PySide6.QtWidgets import QApplication
 
-def main():
-    """Main entry point that sets up environment and launches the application."""
-    from PySide6.QtWidgets import QApplication
-    from . import config_manager
-    from .gremlin import GremlinWindow
+import config_manager
+from gremlin import GremlinWindow
 
+if __name__ == "__main__":
     app = QApplication(sys.argv)
 
+    # please load configuration files before creating the main window
     try:
         state = (config_manager.load_master_config(sys.argv) and
                  config_manager.load_sfx_map() and
@@ -30,7 +25,3 @@ def main():
     window = GremlinWindow()
     window.show()
     sys.exit(app.exec())
-
-
-if __name__ == "__main__":
-    main()
