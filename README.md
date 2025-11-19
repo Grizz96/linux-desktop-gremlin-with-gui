@@ -5,9 +5,7 @@ Desktop companions for your Linux desktop, based on the wonderful project by [il
 A huge thank you to them for creating these amazing desktop friends!
 
 ## Changelog
-- **2025-11-19**: Added new characters: Agnes, Goldship, and Oguri.
-
-![Gremlin Preview](https://github.com/user-attachments/assets/eeb75510-9725-4f3a-a259-0959ddc22603)
+- **2025-11-19**: Added GUI Picker and new characters: Agnes, Goldship, and Oguri.
 
 ---
 
@@ -17,7 +15,7 @@ A huge thank you to them for creating these amazing desktop friends!
     *   Ensure you have `git` and `curl`.
     *   This project uses `uv` for Python package management.
     *   You will need **PySide6** and **Qt6**. For Arch Linux users, you can install them with: `yay -S pyside6 qt6-base`.
-    *   For background transparency, your compositor must be configured. X11 users will need `picom`, and Hyprland users need to add a few window rules (see the original repo's `hyprland.conf` for examples).
+    *   For background transparency, your compositor must be configured (e.g., `picom` for X11).
 
 2.  **Clone the Repository**:
     ```sh
@@ -36,23 +34,37 @@ A huge thank you to them for creating these amazing desktop friends!
 
 ## 🚀 Running the Gremlins
 
-The easiest way to run and select a gremlin is by using the GUI.
+There are multiple ways to run the gremlins.
 
-1.  **Run the GUI Picker**:
-    Make the script executable first:
+### Method 1: Graphical Picker (Recommended)
+
+This is the easiest way to select and run a character.
+
+1.  **Make the scripts executable**:
     ```sh
-    chmod +x run-gui.sh
+    chmod +x run-gui.sh run-uv-xwayland.sh
     ```
-    Then run it:
+2.  **Run the GUI**:
     ```sh
     ./run-gui.sh
     ```
-    This GUI allows you to preview characters and run them with a single click.
 
-2.  **Alternative (Command Line)**:
-    You can also run a gremlin directly from the terminal by specifying its name:
-    ```sh
-    ./run.sh <character-name>
-    ```
-    Example: `./run.sh agnes`
+### Method 2: Command Line (XWayland)
 
+You can run a specific character directly using the `run-uv-xwayland.sh` script. If no name is provided, it will use the default from `config.json`.
+
+```sh
+# Run a specific character
+./run-uv-xwayland.sh agnes
+
+# Run the default character
+./run-uv-xwayland.sh
+```
+
+### Method 3: Unified Script
+
+The project also includes a unified `run.sh` script from a previous refactor.
+
+```sh
+./run.sh <character-name>
+```
