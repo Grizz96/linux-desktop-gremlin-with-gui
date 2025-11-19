@@ -18,6 +18,12 @@ https://github.com/user-attachments/assets/eeb75510-9725-4f3a-a259-0959ddc22603
 >
 > Note 2: It seems that the "Cursor-following does not work in Wayland" statement of mine was, in fact, a skill issue 😩😩. I'll implement it as soon as I can.
 
+# Changelog
+
+- 2025-11-18: Massive source code restructure! We now have a unified run script and a package recipe for Guix. (Huge thanks to [@thanosapollo](https://github.com/thanosapollo)! This chad is a much better programmer than I am.)
+- 2025-11-16: Added a manual trigger for the annoy emote. Press `P` to make them noisy on command.
+- 2025-11-15: Remapped headpats from Left Click to Right Click. No more accidental pats when you want to drag them around!
+
 # Some differences between this and KurtVelasco's Desktop Gremlins
 
 This is not a strict 1:1 port, because I made some changes to the animation flow to better match my own preferences. I also created a few additional spritesheets; please feel free to use them if they're helpful.
@@ -50,7 +56,7 @@ To make the gremlin's background transparent, your compositor must be configured
 <details>
   <summary>For Hyprland</summary>
 
-  Firstly, you need `xwayland`. Since you're using Hyprland, I suspect you have it already. But if you don't, please install it with this command (or any of its equivalent): 
+  Firstly, you need `xwayland`. Since you're using Hyprland, I suspect you have it already. But if you don't, please install it with this command (or any of its equivalent):
 
   ```sh
   yay -S xorg-xwayland
@@ -81,16 +87,11 @@ If you have [rofi](https://github.com/davatorium/rofi) installed, you can use it
 
 <img width="960" height="720" alt="tmp_3" src="https://github.com/user-attachments/assets/45b2cffa-2914-4e25-b8d2-de07432c008e" />
 
-Otherwise, you can navigate to `~/.config/linux-desktop-gremlin/` and execute the run script that matches your setup, then a gremlin shall be spawned:
+Otherwise, you can navigate to `~/.config/linux-desktop-gremlin/` and execute the run script, then a gremlin shall be spawned:
 
 ```sh
-./run-x11.sh            # for running on X11
-./run-xwayland.sh       # for running on Hyprland
-./run-uv-x11.sh         # for running with virtual environment on X11
-./run-uv-xwayland.sh    # for running with virtual environment on Hyprland
-
-# You may also want to see section "How to Choose Your Gremlin (If you don't use
-# Rofi)" if you want to run the program with these scripts.
+./run.sh                    # to spawn the default character (specified in ./config.json)
+./run.sh <character-name>   # to spawn any character who is available in ./spritesheet/
 
 # You can now close the terminal which you executed these scripts with.
 # The gremlin won't be despawned unless you use your hotkeys for closing window,
@@ -125,24 +126,19 @@ You can install dependencies either in a Python virtual environment or using you
   This method uses your distribution's packages to save disk space. You will need PySide6 and its Qt6 dependencies.
 
   ```sh
-  # Example for Arch / EndeavourOS
+  # Example for Arch Linux
   yay -S pyside6 qt6-base
   ```
 </details>
 
 ## 2. Run Linux Desktop Gremlins
 
-Execute the script that matches your setup, then a gremlin shall be spawned:
+Execute one of these run scripts, then a gremlin shall be spawned:
 
 ```sh
-./run-x11.sh            # for running on X11
-./run-xwayland.sh       # for running on Hyprland
-./run-uv-x11.sh         # for running with virtual environment on X11
-./run-uv-xwayland.sh    # for running with virtual environment on Hyprland
-./gremlin-picker.sh     # if you want to use a GUI picker (you need rofi installed)
-
-# For non-rofi users: You may want to see section "How to Choose Your Gremlin
-# (If you don't use Rofi)"
+./run.sh                    # to spawn the default character (specified in ./config.json)
+./run.sh <character-name>   # to spawn any character who is available in ./spritesheet/
+./scripts/gremlin-picker.sh # if you want to use a GUI picker (you need rofi installed)
 
 # You can now close the terminal which you executed these scripts with.
 # The gremlin won't be despawned unless you use your hotkeys for closing window,
@@ -152,6 +148,8 @@ Execute the script that matches your setup, then a gremlin shall be spawned:
 You would also need to configure your compositor correctly so that the gremlins have fully transparent background. Refer to section "How to Install and Run (Automatically)" > "1. Configure your Compositor".
 
 # 🔧 Customizations!
+
+https://github.com/user-attachments/assets/26e2a3b0-4fde-4a3a-926f-ad9f1e1cfb07
 
 ## How to Make Your Gremlin Annoy You (Occasionally!)
 
@@ -180,31 +178,8 @@ You can also trigger this animation by hovering over the gremlin and press "P". 
 
 This program's systray is disabled by default, and you won't lose any functionality by disabling the systray either. However, if you need it, you might enable it by modifying the `Systray` field in `./config.json` to `true`.
 
-## How to Choose Your Gremlin (If you don't use Rofi)
-
-You don't use Rofi to pick a gremlin, but still wanna checkout other gremlins than Matikanetannhauser?
-
-https://github.com/user-attachments/assets/26e2a3b0-4fde-4a3a-926f-ad9f1e1cfb07
-
-Firstly, you may check for available gremlins in the `./spritesheet` directory. For example:
-
-```
-spritesheet/
-├── mambo
-└── rice-shower
-```
-
-Then, you can pass a gremlin's name as an argument to the run script, and she shall be spawned. For example:
-
-```sh
-./run-uv-xwayland.sh rice-shower
-```
-
-You can also specify your default gremlin in `./config.json`.
-
 # 🚀 Stay Tuned!
 
 I'll be adding more characters as soon as my full-time job and university decide to give me a break.
 
 Also, got a cool spritesheet you're dying to see running on your desktop? Feel free to open an issue on GitHub and share! Thank you!
-
