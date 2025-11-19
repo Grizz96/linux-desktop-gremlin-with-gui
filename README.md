@@ -1,6 +1,8 @@
 # Linux Desktop Gremlins
 
-Desktop companions for your Linux desktop, rewritten in PySide6.
+Desktop companions for your Linux desktop, based on the wonderful project by [iluvgirlswithglasses](https://github.com/iluvgirlswithglasses/linux-desktop-gremlin), which is a PySide6 rewrite of [KurtVelasco's Desktop Gremlin](https://github.com/KurtVelasco/Desktop_Gremlin).
+
+A huge thank you to them for creating these amazing desktop friends!
 
 ![Gremlin Preview](https://github.com/user-attachments/assets/eeb75510-9725-4f3a-a259-0959ddc22603)
 
@@ -9,19 +11,19 @@ Desktop companions for your Linux desktop, rewritten in PySide6.
 ## ⚙️ Installation
 
 1.  **Dependencies**:
-    *   Pastikan Anda memiliki `git` dan `curl`.
-    *   Proyek ini menggunakan `uv` untuk manajemen package Python.
-    *   Anda memerlukan **PySide6** dan **Qt6**. Untuk pengguna Arch Linux, Anda bisa install dengan: `yay -S pyside6 qt6-base`.
-    *   Untuk background transparan, compositor Anda harus dikonfigurasi. Pengguna X11 perlu `picom`, dan pengguna Hyprland perlu menambahkan beberapa rules window (lihat `hyprland.conf` di repo asli untuk contoh).
+    *   Ensure you have `git` and `curl`.
+    *   This project uses `uv` for Python package management.
+    *   You will need **PySide6** and **Qt6**. For Arch Linux users, you can install them with: `yay -S pyside6 qt6-base`.
+    *   For background transparency, your compositor must be configured. X11 users will need `picom`, and Hyprland users need to add a few window rules (see the original repo's `hyprland.conf` for examples).
 
-2.  **Clone Repository**:
+2.  **Clone the Repository**:
     ```sh
-    git clone https://github.com/iluvgirlswithglasses/linux-desktop-gremlin
+    git clone <your-fork-url>
     cd linux-desktop-gremlin
     ```
 
 3.  **Install Python Packages**:
-    Gunakan `uv` untuk sinkronisasi dependencies.
+    Use `uv` to sync the dependencies.
     ```sh
     curl -LsSf https://astral.sh/uv/install.sh | sh
     uv sync
@@ -31,43 +33,48 @@ Desktop companions for your Linux desktop, rewritten in PySide6.
 
 ## 🚀 Running the Gremlins
 
-Cara termudah untuk menjalankan dan memilih gremlin adalah menggunakan GUI.
+The easiest way to run and select a gremlin is by using the GUI.
 
-1.  **Jalankan GUI Picker**:
+1.  **Run the GUI Picker**:
+    Make the script executable first:
+    ```sh
+    chmod +x run-gui.sh
+    ```
+    Then run it:
     ```sh
     ./run-gui.sh
     ```
-    GUI ini memungkinkan Anda melihat pratinjau karakter dan menjalankannya dengan satu klik.
+    This GUI allows you to preview characters and run them with a single click.
 
-2.  **Alternatif (Command Line)**:
-    Anda juga bisa menjalankan gremlin langsung dari terminal dengan menyebutkan namanya:
+2.  **Alternative (Command Line)**:
+    You can also run a gremlin directly from the terminal by specifying its name:
     ```sh
     ./run.sh <character-name>
     ```
-    Contoh: `./run.sh agnes`
+    Example: `./run.sh agnes`
 
 ---
 
 ## ✨ How to Add a New Character
 
-Untuk menambahkan karakter Anda sendiri:
+To add your own character:
 
-1.  **Buat Direktori**:
-    *   Buat folder baru dengan nama karakter di dalam `spritesheet/`. Contoh: `spritesheet/my-char/`.
-    *   Buat folder baru dengan nama yang sama di dalam `sounds/`. Contoh: `sounds/my-char/`.
+1.  **Create Directories**:
+    *   Create a new folder with the character's name inside `spritesheet/`. Example: `spritesheet/my-char/`.
+    *   Create another folder with the same name inside `sounds/`. Example: `sounds/my-char/`.
 
-2.  **Siapkan Aset Sprite**:
-    *   Letakkan semua file `*.png` (spritesheets) untuk animasi karakter Anda di dalam direktori `spritesheet/my-char/`.
+2.  **Prepare Sprite Assets**:
+    *   Place all your `*.png` files (spritesheets) for your character's animations inside the `spritesheet/my-char/` directory.
 
-3.  **Konfigurasi `sprite-map.json`**:
-    *   Buat file `sprite-map.json` di dalam `spritesheet/my-char/`.
-    *   File ini mendefinisikan ukuran frame (`FrameWidth`, `FrameHeight`) dan memetakan nama aksi (seperti `Idle`, `Walk`, `Pat`) ke nama file `.png` yang sesuai.
-    *   Anda bisa menyalin dan memodifikasi file ini dari karakter yang sudah ada (misal, `spritesheet/agnes/sprite-map.json`).
+3.  **Configure `sprite-map.json`**:
+    *   Create a `sprite-map.json` file inside `spritesheet/my-char/`.
+    *   This file defines the frame dimensions (`FrameWidth`, `FrameHeight`) and maps action names (like `Idle`, `Walk`, `Pat`) to their corresponding `.png` filenames.
+    *   You can copy and modify this file from an existing character (e.g., `spritesheet/agnes/sprite-map.json`).
 
-4.  **Konfigurasi `emote-config.json`**:
-    *   (Opsional) Jika Anda ingin karakter memiliki "annoy emote" (emote acak saat idle), buat file `emote-config.json` di direktori sprite-nya. Atur `AnnoyEmote` ke `true` dan sesuaikan durasinya.
+4.  **Configure `emote-config.json`**:
+    *   (Optional) If you want the character to have an "annoy emote" (a random emote when idle), create an `emote-config.json` file in its sprite directory. Set `AnnoyEmote` to `true` and adjust the timings.
 
-5.  **Tambahkan Suara**:
-    *   Letakkan semua file suara (`*.wav`) di dalam direktori `sounds/my-char/` yang telah Anda buat. Nama file harus cocok dengan yang akan direferensikan oleh logika program (misal, `pat.wav`, `grab.wav`, dll).
+5.  **Add Sounds**:
+    *   Place all your sound files (`*.wav`) inside the `sounds/my-char/` directory you created. The filenames should correspond to the actions that trigger them (e.g., `pat.wav`, `grab.wav`, etc.).
 
-Setelah semua file berada di tempatnya, karakter baru Anda akan secara otomatis muncul di GUI picker.
+After all the files are in place, your new character will automatically appear in the GUI picker.
