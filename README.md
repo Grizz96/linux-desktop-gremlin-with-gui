@@ -151,6 +151,38 @@ You would also need to configure your compositor correctly so that the gremlins 
 
 https://github.com/user-attachments/assets/26e2a3b0-4fde-4a3a-926f-ad9f1e1cfb07
 
+## How to Choose Your Gremlin
+
+There are a few ways to select which gremlin appears on your desktop.
+
+### Method A: Graphical Picker (Recommended)
+
+If you prefer a graphical interface, you can use the built-in picker. It allows you to see a preview of the character before running it.
+
+```sh
+./run-gui.sh
+```
+
+### Method B: Rofi Picker
+
+If you have [rofi](https://github.com/davatorium/rofi) installed, you can use a script to pick from a list of available gremlins:
+
+```sh
+./scripts/gremlin-picker.sh
+```
+
+### Method C: Command-Line Argument
+
+You can check for available gremlins in the `./spritesheet` directory. For example, you might see `agnes`, `goldship`, `oguri`, `mambo`, and `rice-shower`.
+
+Then, you can pass a gremlin's name as an argument to the run script, and she shall be spawned.
+
+```sh
+./run.sh rice-shower
+```
+
+You can also specify your default gremlin in `./config.json`.
+
 ## How to Make Your Gremlin Annoy You (Occasionally!)
 
 Do you want the gremlins to annoy you at random time or not? 😜
