@@ -1,0 +1,13 @@
+{
+  "Hover": "hover.wav",
+  "Intro": "intro.wav",
+  "Outro": "outro.wav",
+  "Grab": "grab.wav",
+  "Walk": "walk.wav",
+  "Poke": "mambo.wav",
+  "Pat": "pat.wav",
+  "LeftAction": "mambo.wav",
+  "RightAction": "mambo.wav",
+  "Reload": "run.wav",
+  "Emote": "emote3.wav"
+}

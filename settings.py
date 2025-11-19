@@ -39,6 +39,7 @@ class Settings:
     MoveSpeed = 5
     EmoteKeyEnabled = True
     EmoteKey = "P"
+    Scale = 1.0
 
 
 class MouseSettings:

@@ -1,0 +1,7 @@
+
+{
+    "AnnoyEmote": true,
+    "MinEmoteTriggerMinutes": 5,
+    "MaxEmoteTriggerMinutes": 15,
+    "EmoteDuration": 3600
+}
